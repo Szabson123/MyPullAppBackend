@@ -18,6 +18,7 @@ class Note(models.Model):
     name = models.CharField(max_length=255)
     text = models.TextField()
     hashtag = models.CharField(max_length=255)
+    date = models.DateField(auto_now_add=True)
 
 
 class Link(models.Model):

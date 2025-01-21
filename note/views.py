@@ -4,14 +4,14 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from .models import *
 from .serializers import *
-from .mixins import LanguageMixin
+from .mixins import GettingObjectsMixin
 
 class LanguageViewSet(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
     queryset = Language.objects.all()
     
     
-class CategoryViewSet(LanguageMixin, viewsets.ModelViewSet):
+class CategoryViewSet(GettingObjectsMixin, viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.none()
     
@@ -20,6 +20,16 @@ class CategoryViewSet(LanguageMixin, viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(language=self.get_language())
-        return Response({"status": "Created"}, status=status.HTTP_200_OK)
+
+
+class NoteViewSet(GettingObjectsMixin, viewsets.ModelViewSet):
+    serializer_class = NoteSerializer
+    queryset = Note.objects.none()
+    
+    def get_queryset(self):
+        return Note.objects.filter(category=self.get_category())
+    
+    def perform_create(self, serializer):
+        serializer.save(category=self.get_category())
 
 

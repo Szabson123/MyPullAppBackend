@@ -23,7 +23,7 @@ class NoteSerializer(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
     class Meta:
         model = Note
-        fields = ['id', 'category', 'category_name' ,'name', 'text', 'date', 'hashtag']
+        fields = ['id', 'category_name', 'name', 'text', 'date', 'hashtag']
         
     def get_category_name(self, obj):
         return obj.category.name
