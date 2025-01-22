@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework.response import Response
 
+from rest_framework.response import Response
 from rest_framework import status, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .models import *
 from .serializers import *
 from .mixins import GettingObjectsMixin
+
 
 class LanguageViewSet(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
@@ -25,6 +28,8 @@ class CategoryViewSet(GettingObjectsMixin, viewsets.ModelViewSet):
 class NoteViewSet(GettingObjectsMixin, viewsets.ModelViewSet):
     serializer_class = NoteSerializer
     queryset = Note.objects.none()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields= ('hashtag',)
     
     def get_queryset(self):
         return Note.objects.filter(category=self.get_category())

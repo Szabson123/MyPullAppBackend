@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # installed
     'rest_framework',
     'drf_spectacular',
+    'django_filters',
     
     # my
     'note',
